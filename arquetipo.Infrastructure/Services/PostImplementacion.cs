@@ -1,7 +1,6 @@
 using arquetipo.Domain.Interfaces;
 using arquetipo.Entity.Models;
 using arquetipo.Repository.Context;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace arquetipo.Infrastructure.Services
