@@ -3,7 +3,7 @@ using arquetipo.Repository.Context;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Services
+namespace arquetipo.Infrastructure.Services
 {
     public class PatioImplementacion : IPatio
     {

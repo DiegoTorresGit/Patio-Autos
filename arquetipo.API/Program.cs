@@ -18,7 +18,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IPost,PostImplementacion>();
-
+builder.Services.AddScoped<ICliente, ClienteImplementacion>();
+builder.Services.AddScoped<IMarca, MarcaImplementacion>();
+builder.Services.AddScoped<IEjecutivo, EjecutivoImplementacion>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

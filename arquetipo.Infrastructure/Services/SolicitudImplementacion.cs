@@ -3,7 +3,7 @@ using arquetipo.Entity.Models;
 using arquetipo.Repository.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Services
+namespace arquetipo.Infrastructure.Services
 {
     public class SolicitudImplementacion : ISolicitudCredito
     {

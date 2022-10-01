@@ -1,9 +1,11 @@
 ﻿using arquetipo.Entity.Models;
 
-namespace Domain.Interfaces
+namespace arquetipo.Domain.Interfaces
 {
     public interface IMarca
     {
         Task<IEnumerable<Marca>> GetMarca();
+
+        Task<String> Import(string url);
     }
 }

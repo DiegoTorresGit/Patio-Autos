@@ -1,26 +1,23 @@
 ﻿using arquetipo.Entity.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace arquetipo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MarcaController : ControllerBase
+    public class EjecutivoController : ControllerBase
     {
-      
-        private readonly Domain.Interfaces.IMarca _Imarca;
+        private readonly Domain.Interfaces.IEjecutivo _IEjecutivo;
 
-        public MarcaController(Domain.Interfaces.IMarca context)
+        public EjecutivoController(Domain.Interfaces.IEjecutivo context)
         {
-            _Imarca = context;
+            _IEjecutivo = context;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Marca>> Get()
+        public async Task<IEnumerable<Ejecutivo>> Get()
         {
-            return await _Imarca.GetMarca();
+            return await _IEjecutivo.GetEjecutivo();
         }
 
         [HttpPost]
@@ -29,7 +26,7 @@ namespace arquetipo.API.Controllers
             try
             {
                 string mensaje = "";
-                mensaje = await _Imarca.Import(@"C:\Users\Diego Torres\Documents\marca.csv");
+                mensaje = await _IEjecutivo.Import(@"C:\Users\Diego Torres\Documents\ejecutivo.csv");
                 return Ok(mensaje);
             }
             catch (Exception ex)

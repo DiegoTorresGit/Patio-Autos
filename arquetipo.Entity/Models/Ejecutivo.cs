@@ -13,9 +13,9 @@ namespace arquetipo.Entity.Models
         public string? nombres_eje { get; set; }
         public string? apellidos_eje { get; set; }
         public string? direccion_eje { get; set; }
-        public string? telefono_eje { get; set; }
+        public string? telefono_con_eje { get; set; }
         public string? celular_eje { get; set; }
-        public string? patio_eje { get; set; }
+        public int id_pat { get; set; }
         public int edad_eje { get; set; }
 
     }
