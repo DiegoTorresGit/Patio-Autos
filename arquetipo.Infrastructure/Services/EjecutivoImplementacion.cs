@@ -15,10 +15,13 @@ namespace arquetipo.Infrastructure.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Ejecutivo>> GetEjecutivo()
+
+        public async Task<IEnumerable<Ejecutivo>> GetEjecutivo(string cedula)
         {
-            return await _context.Ejecutivo.ToListAsync();
+            return await _context.Ejecutivo.Where(r => r.identificacion_eje == cedula).ToListAsync();
         }
+
+
 
         private DataTable CSVToDataTable(string path)
         {
@@ -95,6 +98,71 @@ namespace arquetipo.Infrastructure.Services
             {
                 return "Se produjo una excepcion : " + e.Message;
             }
+        }
+
+
+        public async Task<Ejecutivo> Update(Ejecutivo entity)
+        {
+            _context.Set<Ejecutivo>().Update(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task Delete(int id)
+        {
+            try
+            {
+                var entity = await GetById(id);
+                if (entity == null)
+                    throw new Exception("No existen datos");
+
+                _context.Set<Ejecutivo>().Remove(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+        public async Task<Ejecutivo> GetById(int id)
+        {
+            try
+            {
+                return await _context.Set<Ejecutivo>().FindAsync(id);
+            }
+            catch (Exception e)
+            {
+                return null;
+
+            }
+        }
+
+        public async Task<bool> Create(Ejecutivo entity)
+        {
+            try
+            {
+                if (!_context.Cliente.Any(r => r.identificacion_cli == entity.identificacion_eje))
+                {
+                    _context.Set<Ejecutivo>().Add(entity);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                //_context.Cliente.Any(r => r.identificacion_cli == entity.identificacion_cli);
+                //_context.Set<Cliente>().Add(entity);
+                //await _context.SaveChangesAsync();
+                //return entity;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
         }
 
     }
