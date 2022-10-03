@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace arquetipo.API.Controllers
 {
-    /// <summary>
-    /// Controlador de clientes
-    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ClienteController : ControllerBase
@@ -106,9 +103,9 @@ namespace arquetipo.API.Controllers
                 await tcr.Delete(id);
                 return Ok("Cliente eliminado");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Ok("Se produjo una excepcion. Mensaje: " + ex.Message);
+                return BadRequest("ERROR: El cliente no puede ser eliminado, tiene infromacion asociada.");
             }
         }
     }

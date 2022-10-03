@@ -102,9 +102,9 @@ namespace arquetipo.API.Controllers
                 await tcr.Delete(id);
                 return Ok("Ejecutivo eliminado");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Ok("Se produjo una excepcion. Mensaje: " + ex.Message);
+                return BadRequest("ERROR: El ejecutivo no puede ser eliminado, tiene infromacion asociada.");
             }
         }
 
