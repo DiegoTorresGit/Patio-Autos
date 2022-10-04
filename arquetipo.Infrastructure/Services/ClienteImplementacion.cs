@@ -155,28 +155,59 @@ namespace arquetipo.Infrastructure.Services
             }
         }
 
-        public async Task<Cliente> Update(Cliente entity)
-        {
-            _context.Set<Cliente>().Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
+        public async Task<Response<string>> Update(Cliente entity)
+        {       
+            Response<string> response = new();
+            try
+            {
+                if (_context.Cliente.Any(r => r.codigo_cli==entity.codigo_cli))
+                {
+                    _context.Set<Cliente>().Update(entity);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    response.Data = null;
+                    response.Success = !response.Success;
+                    response.Message = Constants.ResponseConstants.NotFound;
+                }
+            }
+            catch (Exception e)
+            {
+                response.Data = null;
+                response.Success = !response.Success;
+                response.Message = e.Message;
+            }
+            return response;
+
         }
 
-        public async Task Delete(int id)
+        public async Task<Response<string>> Delete(int id)
         {
+
+            Response<string> response = new();
             try
             {
                 var entity = await GetById(id);
-                if (entity == null)
-                    throw new Exception("No existen datos");
-
-                _context.Set<Cliente>().Remove(entity);
-                await _context.SaveChangesAsync();
+                if (entity!=null)
+                {
+                    _context.Set<Cliente>().Remove(entity);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    response.Data = null;
+                    response.Success = !response.Success;
+                    response.Message = Constants.ResponseConstants.NotFound;
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                response.Data = null;
+                response.Success = !response.Success;
+                response.Message = e.Message;
             }
+            return response;
 
         }
 

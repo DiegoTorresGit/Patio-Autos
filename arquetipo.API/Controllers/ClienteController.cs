@@ -52,7 +52,7 @@ namespace arquetipo.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Mensaje : " + ex.Message);
+                return BadRequest(ex.Message);
             }
         }
         /// <summary>
@@ -78,7 +78,7 @@ namespace arquetipo.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Se produjo una excepcion en la llamada al metodo create. Mensaje : " + ex.Message);
+                return BadRequest(ex.Message);
             }
         }
         /// <summary>
@@ -90,13 +90,23 @@ namespace arquetipo.API.Controllers
         [HttpPut]
         public async Task<ActionResult> Put(Cliente _cliente)
         {
-            if (_cliente == null)
+            try
             {
-                return NotFound("No hay datos para actualizar");
+                if (ModelState.IsValid)
+                {
+                    var result = await tcr.Update(_cliente);
+                    if (result.Success)
+                    {
+                        return Ok(result);
+                    }
+                    return BadRequest(result);
+                }
+                return BadRequest(ModelState.ValidationState);
             }
-
-            await tcr.Update(_cliente);
-            return Ok("Valor actualizado");
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         /// <summary>
         /// Elimina el cliente mediante el codigo
@@ -109,16 +119,16 @@ namespace arquetipo.API.Controllers
         {
             try
             {
-                if (id == 0)
-                {
-                    return NotFound("Debe especificar un id de cliente");
-                }
-                await tcr.Delete(id);
-                return Ok("Cliente eliminado");
+                    var result= await tcr.Delete(id);
+                    if (result.Success)
+                    {
+                        return Ok(result);
+                    }
+                    return BadRequest(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest("ERROR: El cliente no puede ser eliminado, tiene infromacion asociada.");
+                return BadRequest(ex.Message);
             }
         }
     }

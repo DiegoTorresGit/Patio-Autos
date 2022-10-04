@@ -10,8 +10,8 @@ namespace arquetipo.Domain.Interfaces
         Task <IEnumerable<Cliente>> GetClientes(string cedula);
         Task<String> Import(string url);
         Task<Response<string>> Create(Cliente cliente);
-        Task Delete(int id);
-        Task<Cliente> Update(Cliente cliente);
+        Task<Response<string>> Delete(int id);
+        Task<Response<string>> Update(Cliente cliente);
         Task<Cliente> GetById(int id);
     }
 
