@@ -22,6 +22,8 @@ namespace arquetipo.Entity.Models
         public decimal cilindraje_veh { get; set; }
         [Required]
         public decimal avaluo_veh { get; set; }
+        [Required]
+        public int anio_veh { get; set; }
 
     }
 }

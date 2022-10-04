@@ -5,10 +5,10 @@ namespace arquetipo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VehiculoController : Controller
+    public class SolicitudCreditoController : Controller
     {
-        private readonly Domain.Interfaces.IVehiculo tcr;
-        public VehiculoController(Domain.Interfaces.IVehiculo context)
+        private readonly Domain.Interfaces.ISolicitudCredito tcr;
+        public SolicitudCreditoController(Domain.Interfaces.ISolicitudCredito context)
         {
             tcr = context;
         }
@@ -17,23 +17,10 @@ namespace arquetipo.API.Controllers
         /// </summary>
         /// <param name="cedula">numero de placa</param>
         /// <returns>todas las columnas de la tabla cliente</returns>
-        /// 
-        [HttpGet("GetModelo")]
-        public async Task<IEnumerable<Vehiculo>> GetModelo(string modelo)
+        [HttpGet("{cliente}")]
+        public async Task<IEnumerable<Solicitud_Credito>> Get(string criterio)
         {
-            return await tcr.GetModelo(modelo);
-        }
-
-        [HttpGet("GetAnio")]
-        public async Task<IEnumerable<Vehiculo>> GetAnio(int anio)
-        {
-            return await tcr.GetAnio(anio);
-        }
-
-        [HttpGet("{marca}")]
-        public async Task<IEnumerable<Vehiculo>> Get(int marca)
-        {
-            return await tcr.Get(marca);
+            return await tcr.Get(criterio);
         }
         /// <summary>
         /// Crea vehiculo validando que no existan duplicados validando por placa
@@ -41,20 +28,20 @@ namespace arquetipo.API.Controllers
         /// <param name="_vehiculo">recibe la estructura de vehiculo</param>
         /// <returns>Cliente creado o vehiculo ya existe</returns>
         [HttpPost]
-        public async Task<ActionResult> Create(Vehiculo _vehiculo)
+        public async Task<ActionResult> Create(Solicitud_Credito _entity)
         {
             try
             {
-                if (_vehiculo == null)
+                if (_entity == null)
                 {
                     return NotFound("Los valores a crear son nulos");
                 }
 
-                bool creado = await tcr.Create(_vehiculo);
+                bool creado = await tcr.Create(_entity);
                 if (creado)
-                    return Ok("vehiculo creado exitosamente");
+                    return Ok("Creado exitosamente");
                 else
-                    return BadRequest("vehiculo ya existe");
+                    return BadRequest("Ya existe");
             }
             catch (Exception ex)
             {
@@ -68,14 +55,14 @@ namespace arquetipo.API.Controllers
         /// <returns>Valor modificado</returns>
 
         [HttpPut]
-        public async Task<ActionResult> Put(Vehiculo _vehiculo)
+        public async Task<ActionResult> Put(Solicitud_Credito _entity)
         {
-            if (_vehiculo == null)
+            if (_entity == null)
             {
                 return NotFound("No hay datos para actualizar");
             }
 
-            await tcr.Update(_vehiculo);
+            await tcr.Update(_entity);
             return Ok("Valor actualizado");
         }
         /// <summary>
@@ -91,10 +78,10 @@ namespace arquetipo.API.Controllers
             {
                 if (id == 0)
                 {
-                    return NotFound("Debe especificar un id de vehiculo");
+                    return NotFound("Debe especificar un id");
                 }
                 await tcr.Delete(id);
-                return Ok("Cliente eliminado");
+                return Ok("Registro eliminado.");
             }
             catch (Exception ex)
             {

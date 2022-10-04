@@ -13,11 +13,12 @@ namespace arquetipo.Infrastructure.Services
         {
             _context = context;
         }
+        public async Task<IEnumerable<Patio>> GetAll()
+        {
+                return await _context.Patio.ToListAsync();
+        }
         public async Task<IEnumerable<Patio>> Get(string patio)
         {
-            if (patio=="TODOS")          
-             return await _context.Patio.ToListAsync();
-            else
             return await _context.Patio.Where(r => r.nombre_pat == patio).ToListAsync();
         }
         public async Task<Patio> Update(Patio entity)
@@ -37,7 +38,7 @@ namespace arquetipo.Infrastructure.Services
                 _context.Set<Patio>().Remove(entity);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -49,7 +50,7 @@ namespace arquetipo.Infrastructure.Services
             {
                 return await _context.Set<Patio>().FindAsync(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
 
@@ -70,7 +71,7 @@ namespace arquetipo.Infrastructure.Services
                     return false;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

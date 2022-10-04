@@ -8,10 +8,8 @@ namespace arquetipo.Entity.Models
         [Required]
         public int codigo_asi { get; set; }
         [Required]
-        public int id_cli { get; set; }
+        public int codigo_sc { get; set; }
         [Required]
-        public int id_pat { get; set; }
-        [Required]
-        public DateTime fecha_asi { get; set; }
+        public string? fecha_asi { get; set; }
     }
 }

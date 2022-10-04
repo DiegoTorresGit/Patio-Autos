@@ -6,7 +6,7 @@ namespace arquetipo.Entity.Models
     {
         [KeyAttribute]
         [Required]
-        public int id_cli { get; set; }
+        public int codigo_cli { get; set; }
         [Required]
         public string? identificacion_cli { get; set; }
         [Required]

@@ -24,6 +24,7 @@ builder.Services.AddScoped<IEjecutivo, EjecutivoImplementacion>();
 builder.Services.AddScoped<IAsignacion, AsignacionImplementacion>();
 builder.Services.AddScoped<IVehiculo, VehiculoImplementacion>();
 builder.Services.AddScoped<IPatio, PatioImplementacion>();
+builder.Services.AddScoped<ISolicitudCredito, SolicitudCreditoImplementacion>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

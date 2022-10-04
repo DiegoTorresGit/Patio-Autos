@@ -9,20 +9,18 @@ namespace arquetipo.Infrastructure.Services
     public class EjecutivoImplementacion : IEjecutivo
     {
         private readonly BlogContext _context;
-
         public EjecutivoImplementacion(BlogContext context)
         {
             _context = context;
         }
-
-
-        public async Task<IEnumerable<Ejecutivo>> GetEjecutivo(string cedula)
+        public async Task<IEnumerable<Ejecutivo>> Get(string cedula)
         {
             return await _context.Ejecutivo.Where(r => r.identificacion_eje == cedula).ToListAsync();
         }
-
-
-
+        public async Task<IEnumerable<Ejecutivo>> GetEjePat(int codigo_pat)
+        {
+            return await _context.Ejecutivo.Where(r => r.id_pat == codigo_pat).ToListAsync();
+        }
         private DataTable CSVToDataTable(string path)
         {
             DataTable dt = new DataTable();
@@ -57,7 +55,6 @@ namespace arquetipo.Infrastructure.Services
                 return dt;
             }
         }
-
         public async Task<string> Import(string csv_file_path)
         {
             try
@@ -99,15 +96,12 @@ namespace arquetipo.Infrastructure.Services
                 return "Se produjo una excepcion : " + e.Message;
             }
         }
-
-
         public async Task<Ejecutivo> Update(Ejecutivo entity)
         {
             _context.Set<Ejecutivo>().Update(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
-
         public async Task Delete(int id)
         {
             try
@@ -119,26 +113,24 @@ namespace arquetipo.Infrastructure.Services
                 _context.Set<Ejecutivo>().Remove(entity);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
 
         }
-
         public async Task<Ejecutivo> GetById(int id)
         {
             try
             {
                 return await _context.Set<Ejecutivo>().FindAsync(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
 
             }
         }
-
         public async Task<bool> Create(Ejecutivo entity)
         {
             try
@@ -158,7 +150,7 @@ namespace arquetipo.Infrastructure.Services
                 //await _context.SaveChangesAsync();
                 //return entity;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

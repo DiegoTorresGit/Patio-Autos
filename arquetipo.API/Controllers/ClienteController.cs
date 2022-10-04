@@ -18,17 +18,30 @@ namespace arquetipo.API.Controllers
         /// </summary>
         /// <param name="cedula">numero de cedula</param>
         /// <returns>todas las columnas de la tabla cliente</returns>
-        [HttpGet ("{cedula}")]
-        public  async Task<IEnumerable<Cliente>> GetCliente(string cedula)
+        /// 
+
+        //[HttpGet ("{cedula}")]
+        //public  async Task<IEnumerable<Cliente>> GetCliente(string cedula)
+        //{
+        //    return await tcr.GetClientes(cedula);
+        //}
+        [HttpGet("")]
+        public async Task<ActionResult> GetCliente()
         {
-            return await tcr.GetClientes(cedula);
+            var result = await tcr.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
+
         /// <summary>
         /// Importa los datos de los clientes mediante un rchivo csv
         /// </summary>
         /// <param name="rutacsv">Se envia la ruta del csv para convertirlo en tabla y validar duplicidad de de datos</param>
         /// <returns>valor creado o datos duplicados</returns>
-        [HttpPost ("ImportarClientes")]
+        [HttpPost("ImportarClientes")]
         public async Task<ActionResult> ImportarClientes(string rutacsv)
         {
             try
@@ -52,16 +65,16 @@ namespace arquetipo.API.Controllers
         {
             try
             {
-                if (_cliente == null)
+                if (ModelState.IsValid)
                 {
-                    return NotFound("Los valores a crear son nulos");
+                    var result = await tcr.Create(_cliente);
+                    if (result.Success)
+                    {
+                        return Ok(result);
+                    }
+                    return BadRequest(result);
                 }
-                
-                bool creado = await tcr.Create(_cliente);
-                if (creado)
-                    return Ok("Cliente creado exitosamente");
-                else
-                    return BadRequest("Cliente ya existe");
+                return BadRequest(ModelState.ValidationState);
             }
             catch (Exception ex)
             {

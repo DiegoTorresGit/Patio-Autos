@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace arquetipo.Repository.Context
 {
-    public partial class BlogContext : DbContext
+    public class BlogContext : DbContext
     {
         public BlogContext()
         {
@@ -21,7 +21,7 @@ namespace arquetipo.Repository.Context
         public virtual DbSet<Ejecutivo> Ejecutivo { get; set; } = null!;
         public virtual DbSet<Marca> Marca { get; set; } = null!;
         public virtual DbSet<Patio> Patio { get; set; } = null!;
-        public virtual DbSet<Solicitud_Credito> Solicitud { get; set; } = null!;
+        public virtual DbSet<Solicitud_Credito> Solicitud_Credito { get; set; } = null!;
         public virtual DbSet<Vehiculo> Vehiculo { get; set; } = null!;
 
     }

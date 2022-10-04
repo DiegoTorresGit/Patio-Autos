@@ -3,7 +3,8 @@ using arquetipo.Entity.Models;
 using arquetipo.Domain.Interfaces;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
-
+using arquetipo.Entity.Response;
+using arquetipo.Entity.Constants;
 
 namespace arquetipo.Infrastructure.Services
 {
@@ -15,6 +16,59 @@ namespace arquetipo.Infrastructure.Services
         {
             _context = context;
         }
+
+        public async Task<Response<List<Cliente>>> GetAll()
+        {
+            Response<List<Cliente>> response = new();
+            try
+            {
+               var result = await _context.Cliente.ToListAsync();
+                if (result!=null)
+                {
+                    response.Data = result;
+                    response.Message = Constants.ResponseConstants.Success;
+                }
+                else
+                {
+                    response.Data = result;
+                    response.Message = Constants.ResponseConstants.NotFound;
+                }
+            }
+            catch (Exception e)
+            {
+                response.Data = null;
+                response.Success = !response.Success;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
+        public async Task<Response<string>> Create(Cliente entity)
+        {
+            Response<string> response = new();
+            try
+            {
+                if (!_context.Cliente.Any(r => r.identificacion_cli == entity.identificacion_cli))
+                {
+                    _context.Set<Cliente>().Add(entity);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    response.Data = null;
+                    response.Success = !response.Success;
+                    response.Message = Constants.ControlControls.DuplicatedClient;
+                }
+            }
+            catch (Exception e)
+            {
+                response.Data = null;
+                response.Success = !response.Success;
+                response.Message = e.Message;
+            }
+            return response;
+        }
+
 
         public async Task<IEnumerable<Cliente>> GetClientes(string cedula)
         {
@@ -119,7 +173,7 @@ namespace arquetipo.Infrastructure.Services
                 _context.Set<Cliente>().Remove(entity);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -132,37 +186,13 @@ namespace arquetipo.Infrastructure.Services
             {
                 return await _context.Set<Cliente>().FindAsync(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
 
             }
         }
 
-        public async Task<bool> Create(Cliente entity)
-        {
-            try
-            {
-                if (!_context.Cliente.Any(r => r.identificacion_cli == entity.identificacion_cli))
-                {
-                    _context.Set<Cliente>().Add(entity);
-                    await _context.SaveChangesAsync();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-                //_context.Cliente.Any(r => r.identificacion_cli == entity.identificacion_cli);
-                //_context.Set<Cliente>().Add(entity);
-                //await _context.SaveChangesAsync();
-                //return entity;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
 
-        }
     }
 }

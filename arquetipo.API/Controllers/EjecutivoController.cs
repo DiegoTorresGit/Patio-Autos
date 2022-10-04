@@ -17,11 +17,18 @@ namespace arquetipo.API.Controllers
         /// </summary>
         /// <param name="cedula">numero de cedula</param>
         /// <returns>todas las columnas de la tabla ejecutivo</returns>
-        [HttpGet("{cedula}")]
-        public async Task<IEnumerable<Ejecutivo>> GetCliente(string cedula)
+        //[HttpGet("{cedula}")]
+        //public async Task<IEnumerable<Ejecutivo>> Get(string cedula)
+        //{
+        //    return await tcr.Get(cedula);
+        //}
+
+        [HttpGet("{id_patio}")]
+        public async Task<IEnumerable<Ejecutivo>> GetEjePat(int id_patio)
         {
-            return await tcr.GetEjecutivo(cedula);
+            return await tcr.GetEjePat(id_patio);
         }
+
         /// <summary>
         /// Importa los datos de los ejecutivos mediante un rchivo csv
         /// </summary>

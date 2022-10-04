@@ -14,9 +14,19 @@ namespace arquetipo.Infrastructure.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Vehiculo>> GetVehiculo(string placa)
+        public async Task<IEnumerable<Vehiculo>> Get(int marca)
         {
-            return await _context.Vehiculo.Where(r => r.placa_veh == placa).ToListAsync();
+            return await _context.Vehiculo.Where(r => r.id_mar == marca).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Vehiculo>> GetModelo(string modelo)
+        {
+            return await _context.Vehiculo.Where(r => r.modelo_veh == modelo).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Vehiculo>> GetAnio(int anio)
+        {
+            return await _context.Vehiculo.Where(r => r.anio_veh == anio).ToListAsync();
         }
 
         public async Task<Vehiculo> Update(Vehiculo entity)
@@ -37,7 +47,7 @@ namespace arquetipo.Infrastructure.Services
                 _context.Set<Vehiculo>().Remove(entity);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -50,7 +60,7 @@ namespace arquetipo.Infrastructure.Services
             {
                 return await _context.Set<Vehiculo>().FindAsync(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
 
@@ -71,7 +81,7 @@ namespace arquetipo.Infrastructure.Services
                     return false;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

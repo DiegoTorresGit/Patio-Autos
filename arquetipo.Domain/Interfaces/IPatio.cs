@@ -4,6 +4,7 @@ namespace arquetipo.Domain.Interfaces
 {
     public interface IPatio
     {
+        Task<IEnumerable<Patio>> GetAll();
         Task<IEnumerable<Patio>> Get(string placa);
         Task<bool> Create(Patio _vehiculo);
         Task Delete(int id);

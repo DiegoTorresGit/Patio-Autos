@@ -7,6 +7,7 @@ namespace arquetipo.Infrastructure.Services
 {
     public class AsignacionImplementacion : IAsignacion
     {
+
         private readonly BlogContext _context;
 
         public AsignacionImplementacion(BlogContext context)
@@ -16,7 +17,7 @@ namespace arquetipo.Infrastructure.Services
 
         public async Task<IEnumerable<Asignacion>> GetAsignacion(int cliente)
         {
-            return await _context.Asignacion.Where(r => r.id_cli == cliente).ToListAsync();
+            return await _context.Asignacion.Where(r => r.codigo_asi == cliente).ToListAsync();
         }
 
         public async Task<Asignacion> Update(Asignacion entity)
@@ -37,7 +38,7 @@ namespace arquetipo.Infrastructure.Services
                 _context.Set<Asignacion>().Remove(entity);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -50,7 +51,7 @@ namespace arquetipo.Infrastructure.Services
             {
                 return await _context.Set<Asignacion>().FindAsync(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
 
@@ -61,7 +62,7 @@ namespace arquetipo.Infrastructure.Services
         {
             try
             {
-                if (!_context.Asignacion.Any(r => r.id_cli == entity.id_cli))
+                if (!_context.Asignacion.Any(r => r.codigo_sc == entity.codigo_sc))
                 {
                     _context.Set<Asignacion>().Add(entity);
                     await _context.SaveChangesAsync();
@@ -72,7 +73,7 @@ namespace arquetipo.Infrastructure.Services
                     return false;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
