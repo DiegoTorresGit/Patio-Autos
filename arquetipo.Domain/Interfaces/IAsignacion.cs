@@ -1,4 +1,5 @@
 ﻿using arquetipo.Entity.Models;
+using arquetipo.Entity.Response;
 
 namespace arquetipo.Domain.Interfaces
 {
@@ -6,7 +7,8 @@ namespace arquetipo.Domain.Interfaces
     {
         Task<IEnumerable<Asignacion>> GetAsignacion(int cliente);
         Task<bool> Create(Asignacion cliente);
-        Task Delete(int id);
+        Task<Response<string>> Delete(int id);
+
         Task<Asignacion> Update(Asignacion cliente);
         Task<Asignacion> GetById(int id);
     }

@@ -20,11 +20,16 @@ namespace arquetipo.API.Controllers
         /// <returns>todas las columnas de la tabla cliente</returns>
         /// 
 
-        //[HttpGet ("{cedula}")]
-        //public  async Task<IEnumerable<Cliente>> GetCliente(string cedula)
-        //{
-        //    return await tcr.GetClientes(cedula);
-        //}
+        [HttpGet("{cedula}")]
+        public async Task<ActionResult> GetCliente(string cedula)
+        {
+            var result = await tcr.GetClientesCedula(cedula);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpGet("")]
         public async Task<ActionResult> GetCliente()
         {
@@ -42,12 +47,12 @@ namespace arquetipo.API.Controllers
         /// <param name="rutacsv">Se envia la ruta del csv para convertirlo en tabla y validar duplicidad de de datos</param>
         /// <returns>valor creado o datos duplicados</returns>
         [HttpPost("ImportarClientes")]
-        public async Task<ActionResult> ImportarClientes(string rutacsv)
+        public async Task<ActionResult> ImportarClientes(string rutacsv = @"C:\Users\Diego Torres\Documents\cliente.csv")
         {
             try
             {
                 string mensaje = "";
-                mensaje = await tcr.Import(@"C:\Users\Diego Torres\Documents\cliente.csv");
+                mensaje = await tcr.Import(rutacsv);
                 return Ok(mensaje);
             }
             catch (Exception ex)
@@ -119,12 +124,12 @@ namespace arquetipo.API.Controllers
         {
             try
             {
-                    var result= await tcr.Delete(id);
-                    if (result.Success)
-                    {
-                        return Ok(result);
-                    }
-                    return BadRequest(result);
+                var result = await tcr.Delete(id);
+                if (result.Success)
+                {
+                    return Ok(result);
+                }
+                return BadRequest(result);
             }
             catch (Exception ex)
             {

@@ -32,20 +32,22 @@ namespace arquetipo.API.Controllers
         {
             try
             {
-                if (_entity == null)
+                if (ModelState.IsValid)
                 {
-                    return NotFound("Los valores a crear son nulos");
-                }
+                    var result = await tcr.Create(_entity);
+                    if (result.Success)
+                    {
+                       
 
-                bool creado = await tcr.Create(_entity);
-                if (creado)
-                    return Ok("Creado exitosamente");
-                else
-                    return BadRequest("Ya existe");
+                        return Ok(result);
+                    }
+                    return BadRequest(result);
+                }
+                return BadRequest(ModelState.ValidationState);
             }
             catch (Exception ex)
             {
-                return BadRequest("Se produjo una excepcion en la llamada al metodo create. Mensaje : " + ex.Message);
+                return BadRequest(ex.Message);
             }
         }
         /// <summary>
@@ -76,16 +78,16 @@ namespace arquetipo.API.Controllers
         {
             try
             {
-                if (id == 0)
+                var result = await tcr.Delete(id);
+                if (result.Success)
                 {
-                    return NotFound("Debe especificar un id");
+                    return Ok(result);
                 }
-                await tcr.Delete(id);
-                return Ok("Registro eliminado.");
+                return BadRequest(result);
             }
             catch (Exception ex)
             {
-                return BadRequest("Se produjo una excepcion. Mensaje: " + ex.InnerException);
+                return BadRequest(ex.Message);
             }
         }
     }

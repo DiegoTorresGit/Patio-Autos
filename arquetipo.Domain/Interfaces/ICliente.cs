@@ -7,7 +7,7 @@ namespace arquetipo.Domain.Interfaces
     public interface ICliente 
     {
         Task<Response<List<Cliente>>> GetAll();
-        Task <IEnumerable<Cliente>> GetClientes(string cedula);
+        Task <Response<List<Cliente>>> GetClientesCedula(string cedula);
         Task<String> Import(string url);
         Task<Response<string>> Create(Cliente cliente);
         Task<Response<string>> Delete(int id);

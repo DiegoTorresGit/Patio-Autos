@@ -70,9 +70,29 @@ namespace arquetipo.Infrastructure.Services
         }
 
 
-        public async Task<IEnumerable<Cliente>> GetClientes(string cedula)
+        public async Task<Response<List<Cliente>>> GetClientesCedula(string cedula)
         {
-            return await _context.Cliente.Where(r => r.identificacion_cli == cedula).ToListAsync();
+            Response<List<Cliente>> response = new();
+            try
+            {
+                var result = await _context.Cliente.Where(r => r.identificacion_cli == cedula).ToListAsync();
+                if (result != null)
+                {
+                    response.Data = result;
+                }
+                else
+                {
+                    response.Data = result;
+                    response.Message = Constants.ResponseConstants.NotFound;
+                }
+            }
+            catch (Exception e)
+            {
+                response.Data = null;
+                response.Success = !response.Success;
+                response.Message = e.Message;
+            }
+            return response;
         }
 
         private DataTable CSVToDataTable(string path)

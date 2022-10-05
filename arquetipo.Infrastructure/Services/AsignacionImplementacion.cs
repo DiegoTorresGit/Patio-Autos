@@ -1,5 +1,7 @@
 ﻿using arquetipo.Domain.Interfaces;
+using arquetipo.Entity.Constants;
 using arquetipo.Entity.Models;
+using arquetipo.Entity.Response;
 using arquetipo.Repository.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,21 +29,32 @@ namespace arquetipo.Infrastructure.Services
             return entity;
         }
 
-        public async Task Delete(int id)
+        public async Task<Response<string>> Delete(int id)
         {
+
+            Response<string> response = new();
             try
             {
                 var entity = await GetById(id);
-                if (entity == null)
-                    throw new Exception("No existen datos");
-
-                _context.Set<Asignacion>().Remove(entity);
-                await _context.SaveChangesAsync();
+                if (entity != null)
+                {
+                    _context.Set<Asignacion>().Remove(entity);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    response.Data = null;
+                    response.Success = !response.Success;
+                    response.Message = Constants.ResponseConstants.NotFound;
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                response.Data = null;
+                response.Success = !response.Success;
+                response.Message = e.Message;
             }
+            return response;
 
         }
 

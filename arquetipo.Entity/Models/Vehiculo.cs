@@ -24,6 +24,8 @@ namespace arquetipo.Entity.Models
         public decimal avaluo_veh { get; set; }
         [Required]
         public int anio_veh { get; set; }
+        [Required]
+        public bool reservado_veh { get; set; } = false;
 
     }
 }
